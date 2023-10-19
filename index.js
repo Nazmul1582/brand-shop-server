@@ -45,6 +45,12 @@ async function run() {
       res.send(result)
     })
 
+    app.get('/my-cart', async(req, res) => {
+      const query = {addToCart: true}
+      const result = await productCollection.find(query).toArray()
+      res.send(result)
+    })
+
     app.post('/products', async(req, res) => {
         const product = req.body;
         const result = await productCollection.insertOne(product);
