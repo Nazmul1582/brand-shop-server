@@ -78,6 +78,25 @@ async function run() {
       res.send(result)
     })
 
+    app.patch('/products/:id', async(req, res) => {
+      const product = req.body;
+      const id = req.params.id;
+      const filter = {_id: new ObjectId(id)}
+      const options = { upsert: true }
+      const updateProduct = {
+        $set:{
+          name: product.name,
+          image: product.image,
+          brandName: product.brandName,
+          type: product.type,
+          price: product.price,
+          rating: product.rating,
+        }
+      }
+      const result = await productCollection.updateOne(filter, updateProduct, options)
+      res.send(result)
+    })
+
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
