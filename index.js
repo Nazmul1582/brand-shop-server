@@ -97,6 +97,20 @@ async function run() {
       res.send(result)
     })
 
+    app.put("/products/:id", async(req, res) => {
+      const id = req.params.id;
+      const product = req.body;
+      const filter = {_id: new ObjectId(id)}
+      const options = { upsert: true }
+      const updateProduct = {
+        $set:{
+          addToCart: product.addToCart
+        }
+      }
+      const result = await productCollection.updateOne(filter, updateProduct, options)
+      res.send(result)
+    })
+
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
